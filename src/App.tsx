@@ -4,7 +4,7 @@ import 'bulma/css/bulma.min.css';
 
 function formatPrice(number: number, percentage: number): string {
   let formatted = round9(markup(number, percentage))
-  return isNaN(formatted) ? "" : formatted.toString()
+  return isNaN(formatted) ? "" : formatted.toLocaleString().toString()
 }
 
 function round9(number: number): number {
@@ -32,6 +32,7 @@ function formatNumber(number: string): string {
   }
 }
 
+// NOTE: Keyboard auto opening seems like a security concern and won't be allowed
 function App() {
   const percentages1 = []
   const percentages2 = []
@@ -44,7 +45,7 @@ function App() {
   const handleInputChange = (input: { target: { value: React.SetStateAction<string>; }; }) => {
     let number = input.target.value.toString()
     setInputValue(formatNumber(number))
-  };
+  }
 
   return (
     <div className="App container">
@@ -56,11 +57,11 @@ function App() {
             <input
               autoFocus
               className="input is-medium"
+              inputMode="numeric" // need for iOS
               onChange={handleInputChange}
               pattern="[0–9]*"
               placeholder="$ Amount"
-              step=".01"
-              type="number"
+              type="text"
               value={inputValue}
             />
           </div>
